@@ -5,6 +5,8 @@ import { AuthLayout } from '@/pages/_layouts/Auth'
 import { Dashboard } from '@/pages/app/Dashboard'
 import { SignIn } from '@/pages/auth/SignIn'
 
+import { SignUp } from './pages/auth/SignUp'
+
 export function Routes() {
   const routes = useRoutes([
     {
@@ -24,6 +26,10 @@ export function Routes() {
         {
           path: '/sign-in',
           element: <SignIn />,
+        },
+        {
+          path: '/sign-up',
+          element: <SignUp />,
         },
       ],
     },
