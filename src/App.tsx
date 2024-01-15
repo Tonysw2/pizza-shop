@@ -5,15 +5,18 @@ import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
 import { Routes } from './routes'
+import { ThemeProvider } from './theme/theme-provider'
 
 export function App() {
   return (
     <HelmetProvider>
-      <Helmet titleTemplate="%s | Pizza Shop" />
-      <Toaster />
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
+      <ThemeProvider storageKey="pizzashop-theme" defaultTheme="dark">
+        <Helmet titleTemplate="%s | Pizza Shop" />
+        <Toaster />
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </ThemeProvider>
     </HelmetProvider>
   )
 }
