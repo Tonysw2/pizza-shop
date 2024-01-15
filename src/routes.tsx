@@ -1,11 +1,11 @@
 import { useRoutes } from 'react-router-dom'
 
-import { AppLayout } from '@/pages/_layouts/App'
-import { AuthLayout } from '@/pages/_layouts/Auth'
-import { Dashboard } from '@/pages/app/Dashboard'
-import { SignIn } from '@/pages/auth/SignIn'
+import { AppLayout } from '@/pages/_layouts/app'
+import { AuthLayout } from '@/pages/_layouts/auth'
+import { Dashboard } from '@/pages/app/dashboard'
+import { SignIn } from '@/pages/auth/sign-in'
 
-import { SignUp } from './pages/auth/SignUp'
+import { SignUp } from './pages/auth/sign-up'
 
 export function Routes() {
   const routes = useRoutes([
