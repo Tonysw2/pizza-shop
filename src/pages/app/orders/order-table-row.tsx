@@ -1,7 +1,7 @@
 import { ArrowRight, Search, X } from 'lucide-react'
 
-import { Button } from './ui/button'
-import { TableCell, TableRow } from './ui/table'
+import { Button } from '../../../components/ui/button'
+import { TableCell, TableRow } from '../../../components/ui/table'
 
 export function OrderTableRow() {
   return (

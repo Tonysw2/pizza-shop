@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async'
 
-import { OrderTableRow } from '@/components/order-table-row'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -9,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { OrderTableRow } from '@/pages/app/orders/order-table-row'
 
 export function Orders() {
   return (
