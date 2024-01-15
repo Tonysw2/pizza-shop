@@ -5,6 +5,7 @@ import { AuthLayout } from '@/pages/_layouts/auth'
 import { Dashboard } from '@/pages/app/dashboard'
 import { SignIn } from '@/pages/auth/sign-in'
 
+import { Orders } from './pages/app/orders/orders'
 import { SignUp } from './pages/auth/sign-up'
 
 export function Routes() {
@@ -16,6 +17,10 @@ export function Routes() {
         {
           path: '/',
           element: <Dashboard />,
+        },
+        {
+          path: '/orders',
+          element: <Orders />,
         },
       ],
     },
