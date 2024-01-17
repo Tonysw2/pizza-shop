@@ -9,7 +9,7 @@ import { NotFound } from './pages/404'
 import { Orders } from './pages/app/orders/orders'
 import { SignUp } from './pages/auth/sign-up'
 
-export const routes = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: <AppLayout />,
