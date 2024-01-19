@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
 import { Loader } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
@@ -7,10 +6,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { registerRestaurant } from '@/api/register-restaurant'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useRegisterRestaurant } from '@/hooks/useRegisterRestaurant'
 
 const signUpForm = z.object({
   phone: z.string(),
@@ -31,9 +30,7 @@ export function SignUp() {
     resolver: zodResolver(signUpForm),
   })
 
-  const { mutateAsync: registerRestaurantFn } = useMutation({
-    mutationFn: registerRestaurant,
-  })
+  const { registerRestaurantFn } = useRegisterRestaurant()
 
   async function handleSignUp(data: SignUpForm) {
     try {

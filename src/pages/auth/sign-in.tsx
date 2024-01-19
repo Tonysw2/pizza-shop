@@ -1,4 +1,3 @@
-import { useMutation } from '@tanstack/react-query'
 import { Loader } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
@@ -6,10 +5,10 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { signIn } from '@/api/sign-in'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useSignIn } from '@/hooks/useSignIn'
 
 const signInForm = z.object({
   email: z.string().email(),
@@ -30,9 +29,7 @@ export function SignIn() {
     },
   })
 
-  const { mutateAsync: authenticate } = useMutation({
-    mutationFn: signIn,
-  })
+  const { authenticate } = useSignIn()
 
   async function handleSignIn(data: SignInForm) {
     try {
