@@ -8,7 +8,7 @@ export function useUpdateProfile() {
 
   const { mutateAsync } = useMutation({
     mutationFn: updateProfile,
-    onSuccess: (_, { name, description }) => {
+    onMutate({ name, description }) {
       const cached = queryClient.getQueryData<GetManagedRestaurantResponse>([
         'managed-restaurant',
       ])
@@ -22,6 +22,13 @@ export function useUpdateProfile() {
             description,
           },
         )
+      }
+
+      return { cached }
+    },
+    onError(_, __, context) {
+      if (context?.cached) {
+        queryClient.setQueryData(['managed-restaurant'], { ...context.cached })
       }
     },
   })
