@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
+import { Loader } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -92,7 +93,11 @@ export function StoreProfileDialog() {
             </Button>
           </DialogClose>
           <Button type="submit" variant="success" disabled={isSubmitting}>
-            Salvar
+            {isSubmitting ? (
+              <Loader className="h-4 w-4 animate-spin" />
+            ) : (
+              <span>Salvar</span>
+            )}
           </Button>
         </DialogFooter>
       </form>
