@@ -2,6 +2,7 @@ import { Building, ChevronDown, LogOut } from 'lucide-react'
 
 import { useManagedRestaurant } from '@/hooks/useManagedRestaurant'
 import { useProfile } from '@/hooks/useProfile'
+import { useSignOut } from '@/hooks/useSignOut'
 
 import { StoreProfileDialog } from './store-profile-dialog'
 import { Button } from './ui/button'
@@ -17,6 +18,8 @@ import {
 import { Skeleton } from './ui/skeleton'
 
 export function AccountMenu() {
+  const { signOutFn, isSigningOut } = useSignOut()
+
   const { profile, isLoadingProfile } = useProfile()
 
   const { managedRestaurant, isLoadingManagedRestaurant } =
@@ -64,9 +67,15 @@ export function AccountMenu() {
             </DropdownMenuItem>
           </DialogTrigger>
 
-          <DropdownMenuItem className="text-rose-500">
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Sair</span>
+          <DropdownMenuItem asChild className="text-rose-500">
+            <button
+              className="w-full"
+              disabled={isSigningOut}
+              onClick={() => signOutFn()}
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Sair</span>
+            </button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
