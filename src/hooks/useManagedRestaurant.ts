@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getManagedRestaurant } from '@/api/getManageRestaurant'
+import { getManagedRestaurant } from '@/api/get-manage-restaurant'
 
 export function useManagedRestaurant() {
   const { data, isFetching } = useQuery({

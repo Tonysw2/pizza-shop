@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { getProfile } from '@/api/getProfile'
+import { getProfile } from '@/api/get-profile'
 
 export function useProfile() {
   const { data, isFetching } = useQuery({
