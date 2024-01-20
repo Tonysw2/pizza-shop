@@ -1,6 +1,4 @@
 import { Helmet } from 'react-helmet-async'
-import { useSearchParams } from 'react-router-dom'
-import { z } from 'zod'
 
 import { Pagination } from '@/components/pagination'
 import {
@@ -16,22 +14,7 @@ import { OrderTableRow } from '@/pages/app/orders/order-table-row'
 import { OrderTableFilters } from './order-table-filters'
 
 export function Orders() {
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  const pageIndex = z.coerce
-    .number()
-    .transform((page) => page - 1)
-    .parse(searchParams.get('page') ?? '1')
-
-  const { result } = useOrders({ pageIndex })
-
-  function handleChangePage(pageIndex: number) {
-    setSearchParams((state) => {
-      state.set('page', (pageIndex + 1).toString())
-
-      return state
-    })
-  }
+  const { result, handleChangePage } = useOrders()
 
   return (
     <>
