@@ -8,11 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useOrders } from '@/hooks/useOrders'
 import { OrderTableRow } from '@/pages/app/orders/order-table-row'
 
 import { OrderTableFilters } from './order-table-filters'
 
 export function Orders() {
+  const { result } = useOrders()
+
   return (
     <>
       <Helmet title="Pedidos" />
@@ -38,9 +41,10 @@ export function Orders() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {Array.from({ length: 10 }).map((_, i) => (
-                  <OrderTableRow key={i} />
-                ))}
+                {result &&
+                  result.orders.map((order) => (
+                    <OrderTableRow key={order.orderId} order={order} />
+                  ))}
               </TableBody>
             </Table>
           </div>
