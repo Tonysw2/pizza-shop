@@ -4,6 +4,7 @@ import { ArrowRight, Search, X } from 'lucide-react'
 import { useState } from 'react'
 
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { useCancelOrder } from '@/hooks/useCancelOrder'
 
 import { Button } from '../../../components/ui/button'
 import { TableCell, TableRow } from '../../../components/ui/table'
@@ -22,6 +23,8 @@ interface Props {
 
 export function OrderTableRow({ order }: Props) {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
+
+  const { cancelOrderFn } = useCancelOrder()
 
   return (
     <TableRow>
@@ -70,7 +73,12 @@ export function OrderTableRow({ order }: Props) {
       </TableCell>
 
       <TableCell>
-        <Button variant="ghost" size="xs">
+        <Button
+          size="xs"
+          variant="ghost"
+          onClick={() => cancelOrderFn({ orderId: order.orderId })}
+          disabled={!['pending', 'processing'].includes(order.status)}
+        >
           <X className="mr-2 h-3 w-3" />
           Cancelar
         </Button>
