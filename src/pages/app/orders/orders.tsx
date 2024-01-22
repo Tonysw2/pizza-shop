@@ -12,9 +12,10 @@ import { useOrders } from '@/hooks/useOrders'
 import { OrderTableRow } from '@/pages/app/orders/order-table-row'
 
 import { OrderTableFilters } from './order-table-filters'
+import { OrderTableSkeleton } from './order-table-skeleton'
 
 export function Orders() {
-  const { result, handleChangePage } = useOrders()
+  const { result, isLoadingOrders, handleChangePage } = useOrders()
 
   return (
     <>
@@ -41,7 +42,10 @@ export function Orders() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {result &&
+                {isLoadingOrders && <OrderTableSkeleton />}
+
+                {!isLoadingOrders &&
+                  result &&
                   result.orders.map((order) => (
                     <OrderTableRow key={order.orderId} order={order} />
                   ))}
