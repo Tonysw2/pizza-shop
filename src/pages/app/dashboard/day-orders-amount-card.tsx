@@ -1,8 +1,11 @@
 import { Utensils } from 'lucide-react'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useDayOrdersAmount } from '@/hooks/useDayOrdersAmount'
 
 export function DayOrdersAmountCard() {
+  const { dayOrdersAmount } = useDayOrdersAmount()
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -11,10 +14,26 @@ export function DayOrdersAmountCard() {
       </CardHeader>
 
       <CardContent className="space-y-1">
-        <span className="text-2xl font-bold tracking-tight">12</span>
-        <p className="text-xs text-muted-foreground">
-          <span className="text-rose-500">-4%</span> em relação ao mês passado
-        </p>
+        {dayOrdersAmount && (
+          <>
+            <span className="text-2xl font-bold tracking-tight">
+              {dayOrdersAmount.amount.toLocaleString('pt-BR')}
+            </span>
+            <p className="text-xs text-muted-foreground">
+              {dayOrdersAmount.diffFromYesterday >= 0 ? (
+                <>
+                  <span className="text-emerald-500">{`+${dayOrdersAmount.diffFromYesterday}%`}</span>{' '}
+                  em relação a ontem.
+                </>
+              ) : (
+                <>
+                  <span className="text-rose-500">{`${dayOrdersAmount.diffFromYesterday}%`}</span>{' '}
+                  em relação a ontem.
+                </>
+              )}
+            </p>
+          </>
+        )}
       </CardContent>
     </Card>
   )
