@@ -3,37 +3,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { cancelOrder } from '@/api/cancel-order'
 import { GetOrdersResponse } from '@/api/get-orders'
 
-export function useCancelOrder() {
-  const queryClient = useQueryClient()
+import { useUpdateOrderStatusOnCache } from './useUpdateOrderStatusOnCache'
 
-  const { mutateAsync } = useMutation({
+export function useCancelOrder() {
+  const { updateFn } = useUpdateOrderStatusOnCache()
+
+  const { mutateAsync, isPending } = useMutation({
     mutationFn: cancelOrder,
     onSuccess(_, { orderId }) {
-      const ordersListCache = queryClient.getQueriesData<GetOrdersResponse>({
-        queryKey: ['orders'],
-      })
-
-      ordersListCache.forEach(([cacheKey, cacheData]) => {
-        if (!cacheData) {
-          return
-        }
-
-        queryClient.setQueryData<GetOrdersResponse>(cacheKey, {
-          ...cacheData,
-          orders: cacheData.orders.map((order) => {
-            if (order.orderId === orderId) {
-              return {
-                ...order,
-                status: 'canceled',
-              }
-            }
-
-            return order
-          }),
-        })
-      })
+      updateFn(orderId, 'canceled')
     },
   })
 
-  return { cancelOrderFn: mutateAsync }
+  return { cancelOrderFn: mutateAsync, isCancelingOrder: isPending }
 }

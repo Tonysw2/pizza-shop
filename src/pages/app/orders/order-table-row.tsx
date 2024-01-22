@@ -1,10 +1,13 @@
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { ArrowRight, Search, X } from 'lucide-react'
+import { ArrowRight, Loader, Search, X } from 'lucide-react'
 import { useState } from 'react'
 
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { useApproveOrder } from '@/hooks/useApproveOrder'
 import { useCancelOrder } from '@/hooks/useCancelOrder'
+import { useDeliverOrder } from '@/hooks/useDeliverOrder'
+import { useDispatchOrder } from '@/hooks/useDispatchOrder'
 
 import { Button } from '../../../components/ui/button'
 import { TableCell, TableRow } from '../../../components/ui/table'
@@ -24,7 +27,10 @@ interface Props {
 export function OrderTableRow({ order }: Props) {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
 
-  const { cancelOrderFn } = useCancelOrder()
+  const { cancelOrderFn, isCancelingOrder } = useCancelOrder()
+  const { approveOrderFn, isApprovingOrder } = useApproveOrder()
+  const { dispatchOrderFn, isDispatchingOrder } = useDispatchOrder()
+  const { deliverOrderFn, isDeliveringOrder } = useDeliverOrder()
 
   return (
     <TableRow>
@@ -66,10 +72,53 @@ export function OrderTableRow({ order }: Props) {
       </TableCell>
 
       <TableCell>
-        <Button variant="ghost" size="xs">
-          <ArrowRight className="mr-2 h-3 w-3" />
-          Aprovar
-        </Button>
+        {order.status === 'pending' && (
+          <Button
+            variant="ghost"
+            size="xs"
+            disabled={isApprovingOrder}
+            onClick={() => approveOrderFn({ orderId: order.orderId })}
+          >
+            <ArrowRight className="mr-2 h-3 w-3" />
+            {isApprovingOrder ? (
+              <Loader className="h-4 w-4" />
+            ) : (
+              <span>Aprovar</span>
+            )}
+          </Button>
+        )}
+
+        {order.status === 'processing' && (
+          <Button
+            variant="ghost"
+            size="xs"
+            disabled={isDispatchingOrder}
+            onClick={() => dispatchOrderFn({ orderId: order.orderId })}
+          >
+            <ArrowRight className="mr-2 h-3 w-3" />
+            {isDispatchingOrder ? (
+              <Loader className="h-4 w-4" />
+            ) : (
+              <span>Em entrega</span>
+            )}
+          </Button>
+        )}
+
+        {order.status === 'delivering' && (
+          <Button
+            variant="ghost"
+            size="xs"
+            disabled={isDeliveringOrder}
+            onClick={() => deliverOrderFn({ orderId: order.orderId })}
+          >
+            <ArrowRight className="mr-2 h-3 w-3" />
+            {isDeliveringOrder ? (
+              <Loader className="h-4 w-4" />
+            ) : (
+              <span>Entregue</span>
+            )}
+          </Button>
+        )}
       </TableCell>
 
       <TableCell>
@@ -77,7 +126,13 @@ export function OrderTableRow({ order }: Props) {
           size="xs"
           variant="ghost"
           onClick={() => cancelOrderFn({ orderId: order.orderId })}
-          disabled={!['pending', 'processing'].includes(order.status)}
+          disabled={
+            !['pending', 'processing'].includes(order.status) ||
+            isCancelingOrder ||
+            isApprovingOrder ||
+            isDispatchingOrder ||
+            isDeliveringOrder
+          }
         >
           <X className="mr-2 h-3 w-3" />
           Cancelar
