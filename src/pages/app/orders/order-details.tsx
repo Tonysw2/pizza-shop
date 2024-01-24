@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/table'
 import { useOrderDetails } from '@/hooks/useOrderDetails'
 
+import { OrderDetailSkeleton } from './order-details-skeleton'
 import { OrderStatus } from './order-status'
 
 interface Props {
@@ -28,10 +29,6 @@ interface Props {
 export function OrderDetails({ open, orderId }: Props) {
   const { orderDetails } = useOrderDetails({ open, orderId })
 
-  if (!orderDetails) {
-    return null
-  }
-
   return (
     <DialogContent>
       <DialogHeader>
@@ -39,7 +36,7 @@ export function OrderDetails({ open, orderId }: Props) {
         <DialogDescription>Detalhes do pedido</DialogDescription>
       </DialogHeader>
 
-      {orderDetails && (
+      {orderDetails ? (
         <div className="space-y-6">
           <Table>
             <TableBody>
@@ -133,6 +130,8 @@ export function OrderDetails({ open, orderId }: Props) {
             </TableFooter>
           </Table>
         </div>
+      ) : (
+        <OrderDetailSkeleton />
       )}
     </DialogContent>
   )
